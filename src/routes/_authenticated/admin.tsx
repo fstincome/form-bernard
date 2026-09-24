@@ -31,6 +31,9 @@ function AdminPage() {
   const qc = useQueryClient();
   const [open, setOpen] = useState<string | null>(null);
   const [tab, setTab] = useState<"stats" | "list">("stats");
+  const [period, setPeriod] = useState<"all" | "today" | "7d" | "30d">("all");
+  const [filterQ, setFilterQ] = useState("");
+  const [filterA, setFilterA] = useState("");
 
   const { data: isAdmin } = useQuery({
     queryKey: ["is-admin"],

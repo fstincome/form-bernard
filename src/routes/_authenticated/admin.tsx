@@ -73,6 +73,22 @@ function AdminPage() {
     a.click();
   }
 
+  const filterableQs: { label: string; def: Extract<QDef, { kind: "choice" | "multi" }> }[] = surveySections.flatMap((s) =>
+    s.questions.filter((q): q is Extract<QDef, { kind: "choice" | "multi" }> => q.kind !== "scale").map((q) => ({ label: `${s.title.split(".")[0]}. ${q.title}`, def: q })),
+  );
+  const selectedQ = filterableQs.find((q) => q.def.key === filterQ);
+
+  const periodStart = period === "all" ? null : period === "today" ? new Date(new Date().setHours(0, 0, 0, 0)) : new Date(Date.now() - (period === "7d" ? 7 : 30) * 864e5);
+  const filtered = rows.filter((r) => {
+    if (periodStart && new Date(r.created_at) < periodStart) return false;
+    if (selectedQ && filterA) {
+      const v = r.answers[selectedQ.def.key];
+      return Array.isArray(v) ? v.includes(filterA) : v === filterA;
+    }
+    return true;
+  });
+  const hasFilters = period !== "all" || (filterQ !== "" && filterA !== "");
+
   const today = rows.filter((r) => new Date(r.created_at).toDateString() === new Date().toDateString()).length;
   const week = rows.filter((r) => Date.now() - new Date(r.created_at).getTime() < 7 * 864e5).length;
 

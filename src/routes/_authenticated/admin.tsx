@@ -192,12 +192,17 @@ function AdminPage() {
               <ul className="space-y-2">
                 {filtered.map((r, i) => (
                   <li key={r.id} className="rounded-xl border border-border bg-card">
-                    <button onClick={() => setOpen(open === r.id ? null : r.id)} className="flex w-full items-center justify-between px-5 py-4 text-left">
-                      <span className="font-medium text-foreground">Réponse n° {filtered.length - i}</span>
-                      <span className="text-sm text-muted-foreground">
-                        {val(r.answers["sexe"])} · {val(r.answers["occupation"])} · {fmt(r.created_at)}
-                      </span>
-                    </button>
+                    <div className="flex items-center gap-2 pr-3">
+                      <button onClick={() => setOpen(open === r.id ? null : r.id)} className="flex flex-1 flex-wrap items-center justify-between gap-2 px-5 py-4 text-left">
+                        <span className="font-medium text-foreground">Réponse n° {filtered.length - i}</span>
+                        <span className="text-sm text-muted-foreground">
+                          {val(r.answers["sexe"])} · {val(r.answers["occupation"])} · {fmt(r.created_at)}
+                        </span>
+                      </button>
+                      <button onClick={() => deleteResponse(r.id)} disabled={deleting === r.id} className="shrink-0 rounded-md border border-destructive/50 px-3 py-1.5 text-sm text-destructive hover:bg-destructive/10 disabled:opacity-50">
+                        {deleting === r.id ? "…" : "Supprimer"}
+                      </button>
+                    </div>
                     {open === r.id && (
                       <>
                         <dl className="grid gap-x-6 gap-y-2 border-t border-border px-5 py-4 text-sm sm:grid-cols-2">

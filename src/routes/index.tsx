@@ -120,7 +120,8 @@ function Questionnaire() {
   ];
 
   const validate = () => {
-    const missing = requiredByStep[step].some((key) => answers[key] === undefined || answers[key] === "" || (Array.isArray(answers[key]) && answers[key].length === 0));
+    const required = requiredByStep[step] ?? [];
+    const missing = required.some((key) => answers[key] === undefined || answers[key] === "" || (Array.isArray(answers[key]) && answers[key].length === 0));
     if (missing) { setError("Veuillez répondre à toutes les questions de cette section."); return false; }
     setError(""); return true;
   };
@@ -172,10 +173,10 @@ function Questionnaire() {
 
         {step === 0 && <div className="questions">
           <Question number={1} title="Quel est votre sexe ?"><ChoiceGroup name="sexe" options={["Féminin", "Masculin"]} answers={answers} setAnswer={setAnswer} /></Question>
-          <Question number={2} title="Quelle est votre occupation dans l’entreprise ?"><ChoiceGroup name="occupation" options={["Chef du service vente", "Chef du service achat", "Autre employé d’entreprise", "Autre"]} answers={answers} setAnswer={setAnswer} />{answers.occupation === "Autre" && <input className="text-input" placeholder="Précisez votre occupation" onChange={(e) => setAnswer("occupation_autre", e.target.value)} />}</Question>
-          <Question number={3} title="Quel type de commerce votre entreprise pratique-t-elle le plus ?"><ChoiceGroup name="commerce" options={["Importation", "Exportation", "Entrepôt / Réexportation", "Autre"]} answers={answers} setAnswer={setAnswer} />{answers.commerce === "Autre" && <input className="text-input" placeholder="Précisez le type de commerce" onChange={(e) => setAnswer("commerce_autre", e.target.value)} />}</Question>
+          <Question number={2} title="Quelle est votre occupation dans l’entreprise ?"><ChoiceGroup name="occupation" options={["Chef du service vente", "Chef du service achat", "Autre employé d’entreprise", "Autre"]} answers={answers} setAnswer={setAnswer} />{answers["occupation"] === "Autre" && <input className="text-input" placeholder="Précisez votre occupation" onChange={(e) => setAnswer("occupation_autre", e.target.value)} />}</Question>
+          <Question number={3} title="Quel type de commerce votre entreprise pratique-t-elle le plus ?"><ChoiceGroup name="commerce" options={["Importation", "Exportation", "Entrepôt / Réexportation", "Autre"]} answers={answers} setAnswer={setAnswer} />{answers["commerce"] === "Autre" && <input className="text-input" placeholder="Précisez le type de commerce" onChange={(e) => setAnswer("commerce_autre", e.target.value)} />}</Question>
           <Question number={4} title="Quelle est votre expérience dans le commerce transfrontalier avec le COMESA ?"><ChoiceGroup name="experience" options={["Moins de 2 ans", "2 à 4 ans", "4 à 6 ans", "Plus de 6 ans"]} answers={answers} setAnswer={setAnswer} /></Question>
-          <Question number={5} title="Avec quel État partenaire du COMESA commercez-vous principalement ?"><ChoiceGroup name="partenaire" options={["Kenya", "Rwanda", "RDC", "Ouganda", "Autre"]} answers={answers} setAnswer={setAnswer} />{answers.partenaire === "Autre" && <input className="text-input" placeholder="Précisez le pays" onChange={(e) => setAnswer("partenaire_autre", e.target.value)} />}</Question>
+          <Question number={5} title="Avec quel État partenaire du COMESA commercez-vous principalement ?"><ChoiceGroup name="partenaire" options={["Kenya", "Rwanda", "RDC", "Ouganda", "Autre"]} answers={answers} setAnswer={setAnswer} />{answers["partenaire"] === "Autre" && <input className="text-input" placeholder="Précisez le pays" onChange={(e) => setAnswer("partenaire_autre", e.target.value)} />}</Question>
         </div>}
 
         {step === 1 && <div className="questions">
@@ -186,7 +187,7 @@ function Questionnaire() {
         </div>}
 
         {step === 2 && <div className="questions">
-          <Question number={1} title="Votre entreprise vend-elle des produits ou services en dehors du Burundi ?"><ChoiceGroup name="hors_burundi" options={["Oui", "Non"]} answers={answers} setAnswer={setAnswer} />{answers.hors_burundi === "Oui" && <div className="follow-up"><p>Quel marché régional utilisez-vous davantage ?</p><ChoiceGroup name="marche_regional" options={["COMESA", "EAC", "ECOWAS", "SADC"]} answers={answers} setAnswer={setAnswer} /></div>}</Question>
+          <Question number={1} title="Votre entreprise vend-elle des produits ou services en dehors du Burundi ?"><ChoiceGroup name="hors_burundi" options={["Oui", "Non"]} answers={answers} setAnswer={setAnswer} />{answers["hors_burundi"] === "Oui" && <div className="follow-up"><p>Quel marché régional utilisez-vous davantage ?</p><ChoiceGroup name="marche_regional" options={["COMESA", "EAC", "ECOWAS", "SADC"]} answers={answers} setAnswer={setAnswer} /></div>}</Question>
           <Question number={2} title="Comment accédez-vous au marché régional ?"><ChoiceGroup name="acces_marche" options={["Exportation directe", "À travers des intermédiaires", "Coentreprises", "Plateformes numériques"]} answers={answers} setAnswer={setAnswer} /></Question>
           <Question number={3} title="À quel niveau êtes-vous d’accord avec les affirmations ci-dessous ?"><ScaleLegend />{marketStatements.map((statement, i) => <Scale key={statement} name={`market_${i}`} statement={statement} answers={answers} setAnswer={setAnswer} />)}</Question>
         </div>}

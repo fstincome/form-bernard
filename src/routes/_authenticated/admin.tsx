@@ -4,6 +4,7 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/logo.png";
 import { QuestionStats } from "@/components/QuestionStats";
+import { surveySections, type QDef } from "@/lib/questions";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({

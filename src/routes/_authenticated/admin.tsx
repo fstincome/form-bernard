@@ -123,6 +123,42 @@ function AdminPage() {
               ))}
             </section>
 
+            <section className="mb-6 rounded-xl border border-border bg-card p-4">
+              <div className="flex flex-wrap items-end gap-3">
+                <label className="text-sm">
+                  <span className="mb-1 block text-muted-foreground">Période</span>
+                  <select value={period} onChange={(e) => setPeriod(e.target.value as typeof period)} className="rounded-md border border-border bg-background px-3 py-2 text-foreground">
+                    <option value="all">Toutes les dates</option>
+                    <option value="today">Aujourd'hui</option>
+                    <option value="7d">7 derniers jours</option>
+                    <option value="30d">30 derniers jours</option>
+                  </select>
+                </label>
+                <label className="min-w-56 flex-1 text-sm">
+                  <span className="mb-1 block text-muted-foreground">Question</span>
+                  <select value={filterQ} onChange={(e) => { setFilterQ(e.target.value); setFilterA(""); }} className="w-full rounded-md border border-border bg-background px-3 py-2 text-foreground">
+                    <option value="">Toutes les questions</option>
+                    {filterableQs.map((q) => <option key={q.def.key} value={q.def.key}>{q.label}</option>)}
+                  </select>
+                </label>
+                <label className="min-w-56 flex-1 text-sm">
+                  <span className="mb-1 block text-muted-foreground">Réponse</span>
+                  <select value={filterA} onChange={(e) => setFilterA(e.target.value)} disabled={!selectedQ} className="w-full rounded-md border border-border bg-background px-3 py-2 text-foreground disabled:opacity-50">
+                    <option value="">Toutes les réponses</option>
+                    {selectedQ?.def.options.map((o) => <option key={o} value={o}>{o}</option>)}
+                  </select>
+                </label>
+                {hasFilters && (
+                  <button onClick={() => { setPeriod("all"); setFilterQ(""); setFilterA(""); }} className="rounded-md border border-border px-3 py-2 text-sm text-foreground hover:bg-muted">
+                    Réinitialiser
+                  </button>
+                )}
+              </div>
+              <p className="mt-3 text-sm text-muted-foreground">
+                <b className="text-foreground">{filtered.length}</b> réponse(s) sur {rows.length} correspondant aux filtres.
+              </p>
+            </section>
+
             <div className="mb-6 inline-flex rounded-lg border border-border bg-card p-1">
               {([["stats", "Analyse par question"], ["list", "Réponses individuelles"]] as const).map(([k, l]) => (
                 <button key={k} onClick={() => setTab(k)} className={`rounded-md px-4 py-2 text-sm ${tab === k ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-muted"}`}>{l}</button>

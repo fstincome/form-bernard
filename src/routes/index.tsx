@@ -33,10 +33,10 @@ const knowledgeStatements = [
 ];
 
 const marketStatements = [
-  "Le COMESA a facilité l’accès de mon entreprise aux marchés régionaux.",
-  "Le COMESA a augmenté les possibilités d’exportation de mon entreprise.",
-  "Les mesures du COMESA ont réduit les coûts liés au commerce régional.",
-  "Les accords du COMESA favorisent la compétitivité des entreprises burundaises.",
+  "Je connais ce qu’est un bloc commercial.",
+  "Je connais le COMESA.",
+  "Je connais ses États membres.",
+  "Je maîtrise les objectifs du COMESA.",
 ];
 
 const facilitationStatements = [

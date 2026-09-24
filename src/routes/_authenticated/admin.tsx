@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/logo.png";
+import { QuestionStats } from "@/components/QuestionStats";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -28,6 +29,7 @@ function AdminPage() {
   const navigate = useNavigate();
   const qc = useQueryClient();
   const [open, setOpen] = useState<string | null>(null);
+  const [tab, setTab] = useState<"stats" | "list">("stats");
 
   const { data: isAdmin } = useQuery({
     queryKey: ["is-admin"],
@@ -101,10 +103,18 @@ function AdminPage() {
               ))}
             </section>
 
+            <div className="mb-6 inline-flex rounded-lg border border-border bg-card p-1">
+              {([["stats", "Analyse par question"], ["list", "Réponses individuelles"]] as const).map(([k, l]) => (
+                <button key={k} onClick={() => setTab(k)} className={`rounded-md px-4 py-2 text-sm ${tab === k ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-muted"}`}>{l}</button>
+              ))}
+            </div>
+
             {isLoading ? (
               <p className="text-muted-foreground">Chargement…</p>
             ) : rows.length === 0 ? (
               <p className="rounded-xl border border-border bg-card p-8 text-center text-muted-foreground">Aucune réponse pour le moment.</p>
+            ) : tab === "stats" ? (
+              <QuestionStats rows={rows.map((r) => r.answers)} />
             ) : (
               <ul className="space-y-2">
                 {rows.map((r, i) => (

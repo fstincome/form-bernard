@@ -25,34 +25,7 @@ type ChoiceProps = { name: string; value: string; label: string; answers: Answer
 
 const sections = ["Profil", "Connaissances", "Accès au marché", "Facilitation", "Évaluation"];
 
-const knowledgeStatements = [
-  "Je connais ce qu’est un bloc commercial.",
-  "Je connais le COMESA.",
-  "Je connais ses États membres.",
-  "Je maîtrise les objectifs du COMESA.",
-  "Je suis au courant que le Burundi est membre du COMESA.",
-];
-
-const marketStatements = [
-  "Je connais ce qu’est un bloc commercial.",
-  "Je connais le COMESA.",
-  "Je connais ses États membres.",
-  "Je maîtrise les objectifs du COMESA.",
-];
-
-const facilitationStatements = [
-  "Le commerce est devenu plus facile entre les pays du COMESA.",
-  "Le COMESA a amélioré le transport et la logistique transfrontaliers.",
-  "Les procédures douanières au sein du COMESA sont plus simples que celles du commerce hors COMESA.",
-  "Le transport et les infrastructures facilitent le commerce au sein du COMESA.",
-  "Le COMESA a contribué à réduire les barrières non tarifaires telles que les retards douaniers, la documentation complexe, le coût du transport et les restrictions à l’importation/exportation.",
-];
-
-const evaluationStatements = [
-  "L’adhésion du Burundi au COMESA est bénéfique pour l’économie burundaise.",
-  "Le Burundi a pleinement exploité les opportunités offertes par le COMESA.",
-  "Le Gouvernement fournit un soutien suffisant aux entreprises commerçant au sein du COMESA.",
-];
+import { knowledgeStatements, marketStatements, facilitationStatements, evaluationStatements } from "@/lib/questions";
 
 function Choice({ name, value, label, answers, setAnswer }: ChoiceProps) {
   const selected = answers[name] === value;

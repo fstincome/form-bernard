@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import logo from "@/assets/logo.png";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -73,7 +74,9 @@ function AdminPage() {
     <main className="min-h-screen bg-background px-4 py-8">
       <div className="mx-auto max-w-5xl">
         <header className="mb-8 flex flex-wrap items-center justify-between gap-4">
-          <div>
+          <div className="flex items-center gap-3">
+            <img src={logo} alt="Logo de l'étude" className="h-12 w-12 object-contain" width={1024} height={1024} />
+            <div>
             <h1 className="font-serif text-3xl text-foreground">Réponses reçues</h1>
             <p className="text-sm text-muted-foreground">Questionnaire COMESA — mise à jour automatique</p>
           </div>

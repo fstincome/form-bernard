@@ -108,7 +108,7 @@ function AdminPage() {
                     <button onClick={() => setOpen(open === r.id ? null : r.id)} className="flex w-full items-center justify-between px-5 py-4 text-left">
                       <span className="font-medium text-foreground">Réponse n° {rows.length - i}</span>
                       <span className="text-sm text-muted-foreground">
-                        {val(r.answers.sexe)} · {val(r.answers.occupation)} · {fmt(r.created_at)}
+                        {val(r.answers["sexe"])} · {val(r.answers["occupation"])} · {fmt(r.created_at)}
                       </span>
                     </button>
                     {open === r.id && (

@@ -55,11 +55,26 @@ function AdminPage() {
     },
   });
 
+  const [deleting, setDeleting] = useState<string | null>(null);
+
   async function signOut() {
     await qc.cancelQueries();
     qc.clear();
     await supabase.auth.signOut();
     navigate({ to: "/auth", replace: true });
+  }
+
+  async function deleteResponse(id: string) {
+    if (!window.confirm("Supprimer cette réponse définitivement ?")) return;
+    setDeleting(id);
+    const { error } = await supabase.from("questionnaire_responses").delete().eq("id", id);
+    setDeleting(null);
+    if (error) {
+      alert("La suppression a échoué. Réessayez.");
+      return;
+    }
+    if (open === id) setOpen(null);
+    refetch();
   }
 
   function exportCsv() {
@@ -184,14 +199,21 @@ function AdminPage() {
                       </span>
                     </button>
                     {open === r.id && (
-                      <dl className="grid gap-x-6 gap-y-2 border-t border-border px-5 py-4 text-sm sm:grid-cols-2">
-                        {Object.entries(r.answers).map(([k, v]) => (
-                          <div key={k} className="flex justify-between gap-4 border-b border-border/50 py-1">
-                            <dt className="text-muted-foreground">{k}</dt>
-                            <dd className="text-right text-foreground">{val(v)}</dd>
-                          </div>
-                        ))}
-                      </dl>
+                      <>
+                        <dl className="grid gap-x-6 gap-y-2 border-t border-border px-5 py-4 text-sm sm:grid-cols-2">
+                          {Object.entries(r.answers).map(([k, v]) => (
+                            <div key={k} className="flex justify-between gap-4 border-b border-border/50 py-1">
+                              <dt className="text-muted-foreground">{k}</dt>
+                              <dd className="text-right text-foreground">{val(v)}</dd>
+                            </div>
+                          ))}
+                        </dl>
+                        <div className="flex justify-end border-t border-border px-5 py-3">
+                          <button onClick={() => deleteResponse(r.id)} disabled={deleting === r.id} className="rounded-md border border-destructive/50 px-3 py-1.5 text-sm text-destructive hover:bg-destructive/10 disabled:opacity-50">
+                            {deleting === r.id ? "Suppression…" : "Supprimer cette réponse"}
+                          </button>
+                        </div>
+                      </>
                     )}
                   </li>
                 ))}

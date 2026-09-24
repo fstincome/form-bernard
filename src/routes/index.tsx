@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, Check, CheckCircle2, LockKeyhole, Mail, Phone } 
 
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import logo from "@/assets/logo.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -143,7 +144,7 @@ function Questionnaire() {
   return (
     <main className="survey-shell">
       <header className="survey-header">
-        <div className="brand-mark">BIU</div>
+        <img src={logo} alt="Logo de l'étude — collecte de données" className="brand-logo" width={1024} height={1024} />
         <div><p>Bujumbura International University</p><span>Master en Administration et Gestion des Affaires</span></div>
         <div className="study-tag">Étude académique · 2026</div>
       </header>

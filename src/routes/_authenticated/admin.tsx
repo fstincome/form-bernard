@@ -170,13 +170,15 @@ function AdminPage() {
             ) : rows.length === 0 ? (
               <p className="rounded-xl border border-border bg-card p-8 text-center text-muted-foreground">Aucune réponse pour le moment.</p>
             ) : tab === "stats" ? (
-              <QuestionStats rows={rows.map((r) => r.answers)} />
+              <QuestionStats rows={filtered.map((r) => r.answers)} />
+            ) : filtered.length === 0 ? (
+              <p className="rounded-xl border border-border bg-card p-8 text-center text-muted-foreground">Aucune réponse ne correspond aux filtres.</p>
             ) : (
               <ul className="space-y-2">
-                {rows.map((r, i) => (
+                {filtered.map((r, i) => (
                   <li key={r.id} className="rounded-xl border border-border bg-card">
                     <button onClick={() => setOpen(open === r.id ? null : r.id)} className="flex w-full items-center justify-between px-5 py-4 text-left">
-                      <span className="font-medium text-foreground">Réponse n° {rows.length - i}</span>
+                      <span className="font-medium text-foreground">Réponse n° {filtered.length - i}</span>
                       <span className="text-sm text-muted-foreground">
                         {val(r.answers["sexe"])} · {val(r.answers["occupation"])} · {fmt(r.created_at)}
                       </span>

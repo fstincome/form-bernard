@@ -35,7 +35,7 @@ function ScaleBlock({ q, rows }: { q: Extract<QDef, { kind: "scale" }>; rows: An
         const vals = rows.map((r) => Number(r[`${q.prefix}_${idx}`])).filter((v) => v >= 1 && v <= 5);
         const counts = [1, 2, 3, 4, 5].map((k) => vals.filter((v) => v === k).length);
         const mean = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
-        const agree = vals.length ? Math.round(((counts[3] + counts[4]) / vals.length) * 100) : 0;
+        const agree = vals.length ? Math.round((((counts[3] ?? 0) + (counts[4] ?? 0)) / vals.length) * 100) : 0;
         return (
           <div key={idx} className="rounded-lg border border-border/60 p-3">
             <p className="text-sm text-foreground">{idx + 1}. {s}</p>
